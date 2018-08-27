@@ -36,7 +36,7 @@ class Weather
     /**
      * @param mixed $options
      */
-    public function setGuzzleOptions(array $options): void
+    public function setGuzzleOptions($options)
     {
         $this->guzzleOptions = $options;
     }
