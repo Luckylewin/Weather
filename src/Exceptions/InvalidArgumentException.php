@@ -1,15 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lychee
- * Date: 2018/8/24
- * Time: 16:56
+
+/*
+ * This file is part of the luckywin/weather.
+ *
+ * (c) luckywin <876505905@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Luckywin\Weather\Exceptions;
 
-
 class InvalidArgumentException extends Exception
 {
-
 }

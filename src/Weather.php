@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lychee
- * Date: 2018/8/24
- * Time: 15:58
+
+/*
+ * This file is part of the luckywin/weather.
+ *
+ * (c) luckywin <876505905@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Luckywin\Weather;
@@ -21,6 +24,7 @@ class Weather
 
     /**
      * Weather constructor.
+     *
      * @param string $key
      */
     public function __construct($key)
@@ -46,30 +50,29 @@ class Weather
         $url = 'https://restapi.amap.com/v3/weather/weatherInfo';
 
         if (!in_array(strtolower($format), ['json', 'xml'])) {
-            throw new InvalidArgumentException('Invalid response format(json/xml): ' . $format);
+            throw new InvalidArgumentException('Invalid response format(json/xml): '.$format);
         }
 
         if (!in_array(strtolower($type), ['base', 'all'])) {
-            throw new InvalidArgumentException('Invalid type value(base/all): ' . $type);
+            throw new InvalidArgumentException('Invalid type value(base/all): '.$type);
         }
 
         $query = array_filter([
             'key' => $this->key,
             'city' => $city,
             'extensions' => $type,
-            'output' => $format
+            'output' => $format,
         ]);
 
         try {
             $response = $this->getHttpClient()->get($url, [
-                    'query' => $query
+                    'query' => $query,
             ])->getBody()->getContents();
 
             return 'json' === $format ? \json_decode($response, true) : $response;
         } catch (\Exception $e) {
             throw new HttpException($e->getMessage(), $e->getCode(), $e);
         }
-
     }
 
     // 实时天气
@@ -83,5 +86,4 @@ class Weather
     {
         return $this->getWeather($city, 'all', $format);
     }
-
 }
