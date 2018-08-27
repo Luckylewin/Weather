@@ -1,0 +1,22 @@
+{
+    "name": "luckywin/weather",
+    "description": "A Weather SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luckywin",
+            "email": "876505905@qq.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "phpunit/phpunit": "^7.3",
+        "mockery/mockery": "^1.1"
+    },
+    "autoload": {
+    	"psr-4": {
+	   "Luckywin\\Weather\\": "./src/",
+	   "Luckywin\\Weather\\Tests\\": "./tests/"
+	}
+    }
+}
