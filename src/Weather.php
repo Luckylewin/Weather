@@ -45,12 +45,12 @@ class Weather
     {
         $url = 'https://restapi.amap.com/v3/weather/weatherInfo';
 
-        if (!in_array(strtolower($type), ['base', 'all'])) {
-            throw new InvalidArgumentException('Invalid type value(base/all): ' . $type);
-        }
-
         if (!in_array(strtolower($format), ['json', 'xml'])) {
             throw new InvalidArgumentException('Invalid response format(json/xml): ' . $format);
+        }
+
+        if (!in_array(strtolower($type), ['base', 'all'])) {
+            throw new InvalidArgumentException('Invalid type value(base/all): ' . $type);
         }
 
         $query = array_filter([
@@ -70,6 +70,18 @@ class Weather
             throw new HttpException($e->getMessage(), $e->getCode(), $e);
         }
 
+    }
+
+    // 实时天气
+    public function getLiveWeather($city, $format = 'json')
+    {
+        return $this->getWeather($city, 'base', $format);
+    }
+
+    // 天气预告
+    public function getForecastsWeather($city, $format = 'json')
+    {
+        return $this->getWeather($city, 'all', $format);
     }
 
 }

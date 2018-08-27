@@ -17,6 +17,7 @@ use Luckywin\Weather\Exceptions\InvalidArgumentException;
 use Luckywin\Weather\Weather;
 use Mockery\Matcher\AnyArgs;
 use PHPUnit\Framework\TestCase;
+use Mockery;
 
 class WeatherTest extends TestCase
 {
@@ -63,19 +64,19 @@ class WeatherTest extends TestCase
         ])->andReturn($response);
 
 
-        $weather = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $weather = Mockery::mock(Weather::class, ['mock-key'])->makePartial();
         $weather->allows()->getHttpClient()->andReturn($client);
         $this->assertSame('<hello>content</hello>', $w->getWeather('深圳', 'all', 'xml'));
     }
 
     public function testGetWeatherWithGuzzleRuntimeException()
     {
-        $client = \Mockery::mock(Client::class);
+        $client = Mockery::mock(Client::class);
         $client->allows()
                ->get(new AnyArgs()) // 上面已经验证过了 所以用任意参数
                ->andThrow(new \Exception('request timeout')); // 调用get的时候会发生异常
 
-        $weather = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $weather = Mockery::mock(Weather::class, ['mock-key'])->makePartial();
         $weather->allows()->getHttpClient()->andReturn($client);
 
         // 接着断言调用时会产生异常
@@ -137,6 +138,27 @@ class WeatherTest extends TestCase
 
         // 如果没有抛出异常，就会运行到这行，标记当前测试没成功
         $this->fail('Faild to asset getWeather throw exception with invalid argument.');
+    }
+
+
+    public function testGetLiveWeather()
+    {
+        // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
+        $weather = Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $weather->expects()->getWeather('深圳', 'base', 'json')->andReturn(['success' => true]);
+
+        // 断言 并返回正确
+        $this->assertSame(['success' => true], $weather->getLiveWeather('深圳'));
+    }
+
+    public function testGetForecastsWeather()
+    {
+        // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
+        $weather = Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $weather->expects()->getWeather('深圳', 'all', 'json')->andReturn(['success' => true]);
+
+        // 断言 并返回正确
+        $this->assertSame(['success' => true], $weather->getForecastsWeather('深圳'));
     }
 
 
