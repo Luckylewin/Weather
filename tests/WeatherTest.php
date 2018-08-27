@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lychee
- * Date: 2018/8/24
- * Time: 17:46
+
+/*
+ * This file is part of the luckywin/weather.
+ *
+ * (c) luckywin <876505905@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Luckywin\Weather\Tests;
-
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -37,7 +39,7 @@ class WeatherTest extends TestCase
                 'city' => '深圳',
                 'output' => 'json',
                 'extensions' => 'base',
-            ]
+            ],
         ])->andReturn($response);
 
         // 将 getHttpClient 方法替换为上面创建的 http client 为返回值的模拟方法
@@ -60,9 +62,8 @@ class WeatherTest extends TestCase
                 'city' => '深圳',
                 'extensions' => 'all',
                 'output' => 'xml',
-            ]
+            ],
         ])->andReturn($response);
-
 
         $weather = Mockery::mock(Weather::class, ['mock-key'])->makePartial();
         $weather->allows()->getHttpClient()->andReturn($client);
@@ -140,7 +141,6 @@ class WeatherTest extends TestCase
         $this->fail('Faild to asset getWeather throw exception with invalid argument.');
     }
 
-
     public function testGetLiveWeather()
     {
         // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
@@ -160,6 +160,4 @@ class WeatherTest extends TestCase
         // 断言 并返回正确
         $this->assertSame(['success' => true], $weather->getForecastsWeather('深圳'));
     }
-
-
 }
