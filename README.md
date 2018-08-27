@@ -1,8 +1,8 @@
 <h1 align="center"> weather </h1>
 
-<p align="center"> A Weather SDK.</p>
+<p align="center">:rainbow: 基于高德高德开放平台的PHP天气查询接口.</p>
 
-
+[![Build Status](https://travis-ci.org/Luckylewin/Weather.svg?branch=master)](https://travis-ci.org/Luckylewin/Weather)
 ## Installing
 
 ```shell
